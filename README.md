@@ -19,6 +19,11 @@ If you are not sure how to install one of these tools take a look on this http:/
 
 # Versions details
 
+## Ver 3.4.1-lvk
+- Limiting instances of FFMpeg, use with 'cpulimit --lazy --quiet --foreground  -l 60 -- ' before the ffmpeg command (in Advanced settings) for limit at 2 ffmpeg running at 60% of the cpu in the same time. (config for dual core server). Edit `/view/mini-upload-form/videoEncoder.php` for customizing this settings.
+- Fix special font in the wrong directory
+
+
 **LVK-branch** This is the same version from 3.4.1, but with few upgrade and fix.
 
 ## Ver 3.4.1

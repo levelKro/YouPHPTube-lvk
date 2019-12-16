@@ -94,6 +94,7 @@ function isPHP($version = "'7.0.0'") {
 }
 
 function modRewriteEnabled() {
+	/*
     if (!function_exists('apache_get_modules')) {
         ob_start();
         phpinfo(INFO_MODULES);
@@ -103,6 +104,8 @@ function modRewriteEnabled() {
     } else {
         return in_array('mod_rewrite', apache_get_modules());
     }
+	*/
+	return true;
 }
 
 function isFFMPEG() {

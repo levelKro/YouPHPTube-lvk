@@ -218,12 +218,6 @@ if (empty($_SESSION['language'])) {
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>update">
-                                <span class="glyphicon glyphicon-refresh"></span> 
-                                <?php echo __("Update version"); ?>
-                            </a>
-                        </li>
-                        <li>
                             <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations">
                                 <span class="glyphicon glyphicon-cog"></span> 
                                 <?php echo __("Site Configurations"); ?>

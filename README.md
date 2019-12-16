@@ -1,4 +1,8 @@
 # YouPHPTube-lvk
+**About levelKro version**
+Only add few fix and little feature upgrade to work better in standalone. All the rest is the same of YouPHPTube 3.4.1-master.
+
+
 YouPHPTube! is an video-sharing website, It is an open source solution that is freely available to everyone. With YouPHPTube you can create your own video sharing site, YouPHPTube will help you import and encode videos from other sites like Youtube, Vimeo, etc. and you can share directly on your website. In addition, you can use Facebook or Google login to register users on your site. The service was created in march 2017.
 
 # Server Requirements

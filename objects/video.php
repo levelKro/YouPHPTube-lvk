@@ -505,10 +505,12 @@ class Video {
         $obj->currentTime = 0;
         $obj->progress = 0;
         //var_dump($content);exit;
-        preg_match("/Duration: (.*?), start:/", $content, $matches);
-        if (!empty($matches[1])) {
+        preg_match_all("/Duration: (.*?), start:/", $content, $matches);
+		if(strpos($content,"Input #0, image")) $inid=1;
+		else $inid=0;
+        if (!empty($matches[1][$inid])) {
 
-            $rawDuration = $matches[1];
+            $rawDuration = $matches[1][$inid];
 
             //rawDuration is in 00:00:00.00 format. This converts it to seconds.
             $ar = array_reverse(explode(":", $rawDuration));

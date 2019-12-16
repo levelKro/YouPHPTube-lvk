@@ -1,4 +1,15 @@
 <?php
+// Limit the number of ffmpeg process, is set to '2' by default, use with 'cpulimit --lazy --quiet --foreground  -l 60 -- ' for limiting to use 60% of cpu usage (1 cpu core), this setting is for dual core server
+function ffmpegCool(){
+	coolStart:
+	$cool=exec("pgrep ffmpeg | wc -l");
+	if($cool>=2) { // Here is the limit of process, default is 2 at 60%
+		//error_log("Going to sleep, 2 ffmpeg is running...",0);
+		sleep(30); // Wait 30 seconds before retry, you can decrease or increase
+		goto coolStart;
+	}
+}
+
 $configFile = dirname(__FILE__).'/../../videos/configuration.php';
 require_once $configFile;
 require_once $global['systemRootPath'] . 'objects/video.php';
@@ -30,7 +41,7 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
         if ($type !== 'audio' && $type != $key) {
             continue;
         }
-
+		ffmpegCool(); // Cooldown number of ffmpeg instances
         // convert video
         echo "\n\n--Converting audio {$key} \n";
         $pathFileName = "{$global['systemRootPath']}videos/{$original_filename}";
@@ -130,7 +141,7 @@ foreach ($videoConverter as $key => $value) {
         eval('$value = $config->getFfmpeg' . ucfirst($key) . 'Portrait();');
     }
 
-    
+    ffmpegCool(); // Cooldown number of ffmpeg instances
     eval('$ffmpeg ="' . $value . '";');
     $cmd = "rm -f {$$destinationFile} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && {$ffmpeg}";
     echo "** executing command {$cmd}\n";

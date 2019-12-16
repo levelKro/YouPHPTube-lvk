@@ -297,49 +297,49 @@ class Configuration {
 
     function getFfmpegMp4() {
         if (empty($this->ffmpegMp4)) {
-            return 'ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
+            return 'cpulimit --lazy --quiet --foreground  -l 60 -- ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
         }
         return $this->ffmpegMp4;
     }
 
     function getFfmpegWebm() {
         if (empty($this->ffmpegWebm)) {
-            return 'ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
+            return 'cpulimit --lazy --quiet --foreground  -l 60 -- ffmpeg -i {$pathFileName} -vf scale={$videoResolution} -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
         }
         return $this->ffmpegWebm;
     }
 
     function getFfmpegMp4Portrait() {
         if (empty($this->ffmpegMp4Portrait)) {
-            return 'ffmpeg -i {$pathFileName} -lavfi \'[0:v]scale=ih*16/9:-1,boxblur=luma_radius=min(h\,w)/20:luma_power=1:chroma_radius=min(cw\,ch)/20:chroma_power=1[bg];[bg][0:v]overlay=(W-w)/2:(H-h)/2,crop=h=iw*9/16\' -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
+            return 'cpulimit --lazy --quiet --foreground  -l 60 -- ffmpeg -i {$pathFileName} -lavfi \'[0:v]scale=ih*16/9:-1,boxblur=luma_radius=min(h\,w)/20:luma_power=1:chroma_radius=min(cw\,ch)/20:chroma_power=1[bg];[bg][0:v]overlay=(W-w)/2:(H-h)/2,crop=h=iw*9/16\' -vcodec h264 -acodec aac -strict -2 -y {$destinationFile}';
         }
         return $this->ffmpegMp4Portrait;
     }
 
     function getFfmpegWebmPortrait() {
         if (empty($this->ffmpegWebmPortrait)) {
-            return 'ffmpeg -i {$pathFileName} -lavfi \'[0:v]scale=ih*16/9:-1,boxblur=luma_radius=min(h\,w)/20:luma_power=1:chroma_radius=min(cw\,ch)/20:chroma_power=1[bg];[bg][0:v]overlay=(W-w)/2:(H-h)/2,crop=h=iw*9/16\' -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
+            return 'cpulimit --lazy --quiet --foreground  -l 60 -- ffmpeg -i {$pathFileName} -lavfi \'[0:v]scale=ih*16/9:-1,boxblur=luma_radius=min(h\,w)/20:luma_power=1:chroma_radius=min(cw\,ch)/20:chroma_power=1[bg];[bg][0:v]overlay=(W-w)/2:(H-h)/2,crop=h=iw*9/16\' -f webm -c:v libvpx -b:v 1M -acodec libvorbis -y {$destinationFile}';
         }
         return $this->ffmpegWebmPortrait;
     }
 
     function getFfmpegMp3() {
         if (empty($this->ffmpegMp3)) {
-            return 'ffmpeg -i {$pathFileName} -acodec libmp3lame -y {$destinationFile}';
+            return 'cpulimit --lazy --quiet --foreground  -l 60 -- ffmpeg -i {$pathFileName} -acodec libmp3lame -y {$destinationFile}';
         }
         return $this->ffmpegMp3;
     }
 
     function getFfmpegOgg() {
         if (empty($this->ffmpegOgg)) {
-            return 'ffmpeg -i {$pathFileName} -acodec libvorbis -y {$destinationFile}';
+            return 'cpulimit --lazy --quiet --foreground  -l 60 -- ffmpeg -i {$pathFileName} -acodec libvorbis -y {$destinationFile}';
         }
         return $this->ffmpegOgg;
     }
 
     function getYoutubeDl() {
         if (empty($this->youtubeDl)) {
-            return 'youtube-dl -o {$destinationFile} -f \'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4\' {$videoURL}';
+            return 'cpulimit --lazy --quiet --foreground  -l 20 -- youtube-dl -o {$destinationFile} -f \'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4\' {$videoURL}';
         }
         return $this->youtubeDl;
     }
@@ -427,27 +427,7 @@ class Configuration {
 
     function getHead() {
         if (empty($this->head)) {
-            /*
-              return "
-              <script>
-              // YouPHPTube Analytics
-              (function (i, s, o, g, r, a, m) {
-              i['GoogleAnalyticsObject'] = r;
-              i[r] = i[r] || function () {
-              (i[r].q = i[r].q || []).push(arguments)
-              }, i[r].l = 1 * new Date();
-              a = s.createElement(o),
-              m = s.getElementsByTagName(o)[0];
-              a.async = 1;
-              a.src = g;
-              m.parentNode.insertBefore(a, m)
-              })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-              ga('create', 'UA-96597943-1', 'auto');
-              ga('send', 'pageview');
-              </script>
-              ";
-             */
         }
         return $this->head;
     }
@@ -480,19 +460,6 @@ class Configuration {
 
     function getAdsense() {
         if (empty($this->adsense)) {
-            /*
-              return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-              <!-- YouPHPTube -->
-              <ins class="adsbygoogle"
-              style="display:block"
-              data-ad-client="ca-pub-8404441263723333"
-              data-ad-slot="3904005408"
-              data-ad-format="auto"></ins>
-              <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-              </script>';
-             * 
-             */
         }
         return $this->adsense;
     }
@@ -555,7 +522,7 @@ class Configuration {
 
     function getFfmpegSpectrum() {
         if (empty($this->ffmpegSpectrum)) {
-            return 'ffmpeg -i {$pathFileName} -filter_complex \'[0:a]showwaves=s=858x480:mode=line,format=yuv420p[v]\' -map \'[v]\' -map 0:a -c:v libx264 -c:a copy {$destinationFile}';
+            return 'ffmpeg -loop 1 -i '.$_SERVER['DOCUMENT_ROOT'].'/view/img/audio_wave_bg.jpg -i {$pathFileName} -filter_complex \'[1:a]showwaves=s=1280x720:mode=line:colors=SteelBlue:split_channels=1,colorkey=0x000000:0.01:0.1,format=rgba[v];[0:v][v]overlay[outv]\' -map \'[outv]\' -pix_fmt yuv420p  -map 1:a -c:v libx264 -shortest -c:a copy {$destination}';
         }
         return $this->ffmpegSpectrum;
     }
@@ -601,7 +568,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     
     function getTheme() {
         if(empty($this->theme)){
-            return "default";
+            return "slate";
         }
         return $this->theme;
     }

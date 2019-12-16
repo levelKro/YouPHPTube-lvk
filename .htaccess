@@ -3,7 +3,8 @@
 </IfModule>
 <IfModule mod_rewrite.c>
     RewriteEngine on
-
+	RewriteCond %{SERVER_PORT} 80 
+	RewriteRule ^(.*)$ https://%{SERVER_NAME}/$1 [R,L]
     #main Files
     RewriteRule    ^$ view/    [NC,L]
     RewriteRule    ^bootstrap/(.+)$ view/bootstrap/$1 [NC,L]

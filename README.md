@@ -26,7 +26,8 @@ If you are not sure how to install one of these tools take a look on this http:/
 - Hack the `Apache2 mod_rewrite`checkup, return wrongly false under PHP 7.1, now is always return true,
 - Force HTTPS instead of HTTP protocol, is the new standard,
 - Remove YouPHPTube codes for Google Analytics, this is not make change on your own code,
-- Remove old link for YouPHPTube update (no more update, this is a old project version)
+- Remove old link for YouPHPTube update (no more update, this is a old project version),
+- Fix `fr.php` locale, file creation corrupted, need to recreate new one,
 
 _Know issues_ When a video is waitting for encoding (2 ffmpeg running), the icon about the state of encoding flash 0%-100% (when is re-encode). It's normal. No output file was created for the encoding and the PHP code is not updated for that, but this flash effect are usefull for make it 'on standby'.
 

@@ -1002,7 +1002,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                         </ul>
 						<div class="row">
 							<h3><?php echo __("About CPU and Process limitations"); ?></h3>
-							<p class=" justify-content-between"><?php echo __("This feature was added for more CPU usage blancing when encoding. For limit CPU (over)load, with command CPU Limit you can limit usage, and when the amount of process is reach, the next encoding wait for a finished job."); ?></p>
+							<p class=" justify-content-between"><?php echo __("This feature was added for more CPU usage bslancing when encoding. For limit CPU (over)load, with command CPU Limit you can limit usage, and when the amount of process is reach, the next encoding wait for a finished job."); ?></p>
 							<p><?php echo __("If you have 2 CPU logical core, and want keep ~20%/CPU free, you can set 2 process at 80 CPU limit, or 4 process at 40%, .... etc... one core is 100, and add 100 for each other cores."); ?></p>
 						</div>
                     </div>

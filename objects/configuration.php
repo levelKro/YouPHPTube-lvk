@@ -64,6 +64,10 @@ class Configuration {
     private $smtpUsername;
     private $smtpPassword;
     private $smtpPort;
+	
+	//version 3.4.1-lvk
+	private $cpuLimit;
+	private $processLimit;
 
     function __construct($video_resolution = "") {
         $this->load();
@@ -146,7 +150,9 @@ class Configuration {
                 . "smtpHost = '{$global['mysqli']->real_escape_string($this->getSmtpHost())}',"
                 . "smtpUsername = '{$global['mysqli']->real_escape_string($this->getSmtpUsername())}',"
                 . "smtpPort = '{$global['mysqli']->real_escape_string($this->getSmtpPort())}',"
-                . "smtpPassword = '{$global['mysqli']->real_escape_string($this->getSmtpPassword())}'"
+                . "smtpPassword = '{$global['mysqli']->real_escape_string($this->getSmtpPassword())}',"
+				. "cpuLimit = '{$global['mysqli']->real_escape_string($this->getCPU_limit())}',"
+				. "processLimit = '{$global['mysqli']->real_escape_string($this->getProcess_limit())}'"
                 . " WHERE id = 1";
 
 
@@ -158,7 +164,28 @@ class Configuration {
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
     }
-
+	/*
+		New functions
+	*/
+	function setCPU_limit($cpuLimit) {
+		$this->cpuLimit = $cpuLimit;
+	}
+    function getCPU_limit() {
+        if (empty($this->cpuLimit)) {
+            return 60;
+        }
+        return $this->cpuLimit;
+    }	
+	function setProcess_limit($processLimit) {
+		$this->processLimit = $processLimit;
+	}
+    function getProcess_limit() {
+        if (empty($this->processLimit)) {
+            return 2;
+        }
+        return $this->processLimit;
+    }	
+	//** end
     function getVideo_resolution() {
         return $this->video_resolution;
     }

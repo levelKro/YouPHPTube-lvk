@@ -1,20 +1,23 @@
 <?php
-// Limit the number of ffmpeg process, is set to '2' by default, use with 'cpulimit --lazy --quiet --foreground  -l 60 -- ' for limiting to use 60% of cpu usage (1 cpu core), this setting is for dual core server
-function ffmpegCool(){
-	coolStart:
-	$cool=exec("pgrep ffmpeg | wc -l");
-	if($cool>=2) { // Here is the limit of process, default is 2 at 60%
-		//error_log("Going to sleep, 2 ffmpeg is running...",0);
-		sleep(30); // Wait 30 seconds before retry, you can decrease or increase
-		goto coolStart;
-	}
-}
 
 $configFile = dirname(__FILE__).'/../../videos/configuration.php';
 require_once $configFile;
 require_once $global['systemRootPath'] . 'objects/video.php';
 $videoResolution = $config->getVideo_resolution();
-
+/*
+	Cooldown if FFMpeg is too many
+*/
+function ffmpegCool(){
+	global $config;
+	coolStart:
+	$cool=exec("pgrep ffmpeg | wc -l");
+	if($cool>=$config->getProcess_limit()) {
+		error_log("Going to sleep 30 seconds, ".$config->getProcess_limit()." ffmpeg is running...",0);
+		sleep(30);
+		goto coolStart;
+	}
+}
+$precmd="cpulimit --lazy --quiet --foreground  -l ".$config->getCPU_limit()." -- ";
 header('Content-Type: application/json');
 $videoConverter = array();
 //$videoConverter['mp4'] = ' -vf scale=' . $videoResolution . ' -vcodec h264 -acodec aac -strict -2 -y ';
@@ -47,7 +50,7 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
         $pathFileName = "{$global['systemRootPath']}videos/{$original_filename}";
         $destinationFile = "{$global['systemRootPath']}videos/{$filename}.{$key}";
         eval('$ffmpeg ="' . $value . '";');
-        $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.{$key} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && {$ffmpeg}";
+        $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.{$key} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && {$precmd}{$ffmpeg}";
         echo "** executing command {$cmd}\n";
         exec($cmd . "  < /dev/null 1> {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt  2>&1", $output, $return_val);
         if ($return_val !== 0) {
@@ -65,7 +68,7 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
                 $destinationFile = "{$global['systemRootPath']}videos/{$filename}.mp4";
                 eval('$ffmpeg ="' . $config->getFfmpegSpectrum() . '";');
                 //$ffmpeg = "ffmpeg -i {$pathFileName} -filter_complex \"[0:a]showwaves=s=858x480:mode=line,format=yuv420p[v]\" -map \"[v]\" -map 0:a -c:v libx264 -c:a copy {$destinationFile}";
-                $cmd = "rm -f $destinationFile && rm -f {$global['systemRootPath']}videos/{$filename}_progress_mp4.txt && {$ffmpeg}";
+                $cmd = "rm -f $destinationFile && rm -f {$global['systemRootPath']}videos/{$filename}_progress_mp4.txt && {$precmd}{$ffmpeg}";
                 echo "** executing command {$cmd}\n";
                 exec($cmd . "  < /dev/null 1> {$global['systemRootPath']}videos/{$filename}_progress_mp4.txt  2>&1", $output, $return_val);
                 if ($return_val !== 0) {
@@ -77,7 +80,7 @@ if ($type == 'audio' || $type == 'mp3' || $type == 'ogg') {
                     $pathFileName = $destinationFile;
                     $destinationFile = "{$global['systemRootPath']}videos/{$filename}.webm";
                     eval('$ffmpeg ="' . $videoConverter['webm'] . '";');
-                    $cmd = "rm -f $destinationFile && rm -f {$global['systemRootPath']}videos/{$filename}_progress_webm.txt && {$ffmpeg}";
+                    $cmd = "rm -f $destinationFile && rm -f {$global['systemRootPath']}videos/{$filename}_progress_webm.txt && {$precmd}{$ffmpeg}";
                     echo "** executing command {$cmd}\n";
                     exec($cmd . "  < /dev/null 1> {$global['systemRootPath']}videos/{$filename}_progress_webm.txt  2>&1", $output, $return_val);
                     if ($return_val !== 0) {
@@ -143,7 +146,7 @@ foreach ($videoConverter as $key => $value) {
 
     ffmpegCool(); // Cooldown number of ffmpeg instances
     eval('$ffmpeg ="' . $value . '";');
-    $cmd = "rm -f {$$destinationFile} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && {$ffmpeg}";
+    $cmd = "rm -f {$$destinationFile} && rm -f {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt && {$precmd}{$ffmpeg}";
     echo "** executing command {$cmd}\n";
     exec($cmd . " < /dev/null 1> {$global['systemRootPath']}videos/{$filename}_progress_{$key}.txt  2>&1", $output, $return_val);
     if ($return_val !== 0) {
@@ -176,7 +179,7 @@ if (empty($type) || $type == 'img') {
     $destinationFile = "{$global['systemRootPath']}videos/{$filename}.jpg";
     eval('$ffmpeg ="' . $config->getFfmpegImage() . '";');
 
-    $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.jpg && {$ffmpeg}";
+    $cmd = "rm -f {$global['systemRootPath']}videos/{$filename}.jpg && {$precmd}{$ffmpeg}";
     echo "** executing command {$cmd}\n";
     exec($cmd . " < /dev/null 2>&1", $output, $return_val);
     if ($return_val !== 0) {

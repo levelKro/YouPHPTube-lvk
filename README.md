@@ -20,11 +20,11 @@ If you are not sure how to install one of these tools take a look on this http:/
 # Versions details
 
 ## Ver 3.4.1-lvk
-- Limiting instances of FFMpeg, use with `cpulimit --lazy --quiet --foreground  -l 60 -- ` before the `ffmpeg command` (in Advanced settings) for limit _at 2 ffmpeg running at 60% of the cpu in the same time_. (config for dual core server). Edit `/view/mini-upload-form/videoEncoder.php` for customizing this settings,
+- Limiting instances of FFMpeg, and adding parameters in configuration section,
 - Fix special font in the wrong directory,
-- Background image for Audio Waveform, use this command for ffmpeg (in Advanced settings); `ffmpeg -loop 1 -i <your_path>/view/img/audio_wave_bg.jpg -i {$pathFileName} -filter_complex '[1:a]showwaves=s=1280x720:mode=line:colors=SteelBlue:split_channels=1,colorkey=0x000000:0.01:0.1,format=rgba[v];[0:v][v]overlay[outv]' -map '[outv]' -pix_fmt yuv420p  -map 1:a -c:v libx264 -shortest -c:a copy {$destination}`. This make also the audio visual blue (previous was red),
-- Hack the `Apache2 mod_rewrite`checkup, return wrongly false under PHP 7.1, now is always return true,
-- Force HTTPS instead of HTTP protocol, is the new standard,
+- Background image for Audio Waveform and change audio visual color for blue (previous was red),
+- Hack the `Apache2 mod_rewrite` checkup, return wrongly false under PHP 7.1, now is always return true,
+- Force HTTPS instead of HTTP protocol, is the new standard (.htaccess),
 - Remove YouPHPTube codes for Google Analytics, this is not make change on your own code,
 - Remove old link for YouPHPTube update (no more update, this is a old project version),
 - Fix `/locale/fr.php` locale, file creation corrupted, need to recreate new one,

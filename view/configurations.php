@@ -188,6 +188,10 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                 <div class="alert alert-success">
                                                     <span class="glyphicon glyphicon-check"></span>
                                                     <strong>Mod Rewrite module is Present</strong>
+													<details>
+														Please note LVK version user; this version bypass this checkup because the original code is wrong (specially with PHP 7).
+														Make your own verification before use YouPHPTube.
+													</details>
                                                 </div>                  
                                                 <?php
                                             } else {
@@ -596,6 +600,26 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
+                                                        <label class="col-md-4 control-label"><?php echo __("CPU Usage per process"); ?></label>  
+                                                        <div class="col-md-8 inputGroupContainer">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-dashboard"></i></span>
+                                                                <input aria-describedby="cpuHelp"   id="cpuLimit" placeholder="<?php echo __("between 0-100"); ?>" class="form-control"  type="text" value="<?php echo $config->getCPU_limit(); ?>" >                                            
+                                                            </div>
+                                                            <small id="cpuHelp" class="form-text text-muted"><?php echo __("Only a numeric value between 0 and 100, amount of percent of a one (1) CPU core."); ?></small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label"><?php echo __("Process in same time"); ?></label>  
+                                                        <div class="col-md-8 inputGroupContainer">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="glyphicon glyphicon-tasks"></i></span>
+                                                                <input aria-describedby="processHelp"   id="processLimit" placeholder="<?php echo __("a number equal or granter of 1"); ?>" class="form-control"  type="text" value="<?php echo $config->getProcess_limit(); ?>" >                                            
+                                                            </div>
+                                                            <small id="processHelp" class="form-text text-muted"><?php echo __("Use with CPU Usage limit, use in the best only one (1) process per CPU core."); ?></small>
+                                                        </div>
+                                                    </div>													
+                                                    <div class="form-group">
                                                         <label class="col-md-2"><?php echo __("Exiftool"); ?></label>  
                                                         <div class="col-md-10">
                                                             <input id="exiftool" class="form-control"  type="text" value="<?php echo $config->getExiftool(); ?>" >       
@@ -976,6 +1000,11 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
                                 <span class="badge badge-default badge-pill">(2160p)(Ultra-HD)(4K)</span>
                             </li>
                         </ul>
+						<div class="row">
+							<h3><?php echo __("About CPU and Process limitations"); ?></h3>
+							<p class=" justify-content-between"><?php echo __("This feature was added for more CPU usage blancing when encoding. For limit CPU (over)load, with command CPU Limit you can limit usage, and when the amount of process is reach, the next encoding wait for a finished job."); ?></p>
+							<p><?php echo __("If you have 2 CPU logical core, and want keep ~20%/CPU free, you can set 2 process at 80 CPU limit, or 4 process at 40%, .... etc... one core is 100, and add 100 for each other cores."); ?></p>
+						</div>
                     </div>
                 </div>
                 <script>

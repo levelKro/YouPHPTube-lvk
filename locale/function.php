@@ -13,6 +13,7 @@ if (!empty($_GET['lang'])) {
 function __($str) {
     global $t;
     if (empty($t[$str])) {
+		error_log("\$t[\"".$str."\"]=\"".$str."<!--translate-->\";\r\n",3,"../locale/".$_SESSION['language'].".php"); // Comment to disable auto-creation of missing translation
         return $str;
     } else {
         return $t[$str];
